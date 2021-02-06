@@ -6,7 +6,7 @@ namespace FileReverse
 {
     public static class FileReverseManager
     {
-        public static bool ReverseContent(string inputFilePath, string outputFilePath)
+        public static void ReverseContent(string inputFilePath, string outputFilePath)
         {
             if (string.IsNullOrWhiteSpace(inputFilePath) || string.IsNullOrWhiteSpace(outputFilePath))
             {
@@ -14,9 +14,20 @@ namespace FileReverse
             }
 
             var lines = System.IO.File.ReadAllLines(inputFilePath);
-            System.IO.File.WriteAllLines(outputFilePath, lines);
+            var outputLines = new List<string>();
+            var stringBuilder = new StringBuilder();
 
-            return false;
+            for (int i = lines.Length - 1; i >= 0; i--)
+            {
+                stringBuilder.Clear();
+                for (int j = lines[i].Length - 1; j >= 0; j--)
+                {
+                    stringBuilder.Append(lines[i][j]);
+                }
+                outputLines.Add(stringBuilder.ToString());
+            }
+
+            System.IO.File.WriteAllLines(outputFilePath, outputLines);
         }
     }
 }
